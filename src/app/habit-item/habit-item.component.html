@@ -1,0 +1,6 @@
+<button
+    class="habit-item"
+    type="button"
+    (click)="addHabit()"
+    [disabled]="hasCompleted()">{{habit.name}}
+</button>
