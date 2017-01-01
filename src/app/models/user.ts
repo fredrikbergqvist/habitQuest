@@ -1,6 +1,6 @@
 export class User {
     name:string = "";
-    reward:number = -1;
+    reward:number = 0;
     goal = {
         amount: 0,
         title: "",

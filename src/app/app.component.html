@@ -3,13 +3,17 @@
         <h1>
             <span>Habit</span><span>Quest</span>
         </h1>
+
+        <div class="current-total">
+            <span>{{userData?.reward}}</span>
+        </div>
     </header>
 
     <app-register-user *ngIf="!userData" (onChange)="onRegister($event)"></app-register-user>
 
     <article *ngIf="userData">
         <header>
-            <h2><span>Hej</span> <span>{{userData?.name}}</span>!</h2>
+            <h2><span>Hej {{userData?.name}}!</span></h2>
             <p>Sätt igång och spara dina vanor!</p>
         </header>
 

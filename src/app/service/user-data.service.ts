@@ -1,40 +1,67 @@
 import {Injectable} from '@angular/core';
 import {Habit} from '../models/habit';
 import {User} from '../models/user';
+import {DateService} from './date.service';
+import {DataStoreService} from './data-store.service';
 
 @Injectable()
 export class UserDataService {
-    private DAILY_HABITS_STRING = 'completedDailyHabits';
-    private WEEKLY_HABITS_STRING = 'completedWeeklyHabits';
-    private MONTHLY_HABITS_STRING = 'completedMonthlyHabits';
+    private DAILY_HABITS_STRING = 'completedDailyHabits_' + new Date().getDate();
+    private WEEKLY_HABITS_STRING = 'completedWeeklyHabits_' + this.dateService.getWeekNumber();
+    private MONTHLY_HABITS_STRING = 'completedMonthlyHabits_' + (new Date().getMonth() + 1);
     private USER_STRING = 'userHabits';
     completedDailyHabits: {date: number, habits: Array<number>};
     completedWeeklyHabits: {date: number, habits: Array<number>};
     completedMonthlyHabits: {date: number, habits: Array<number>};
+    userProfile: User;
 
-    constructor() {
+    constructor(private dateService:DateService, private dataStore:DataStoreService) {
         this.loadCompletedDailyHabits();
         this.loadCompletedWeeklyHabits();
-        this.loadCompletedMonthklyHabits();
+        this.loadCompletedMonthlyHabits();
     }
 
     saveUser(user:User){
-        this.saveToLocalStorage(this.USER_STRING, user);
+        this.dataStore.saveData(this.USER_STRING, user);
     }
 
     loadUser(){
-        const userData = localStorage.getItem(this.USER_STRING);
-        return userData ? JSON.parse(userData) : null;
+        if(!this.userProfile){
+            this.userProfile = this.getUser();
+        }
+        return this.userProfile ? this.userProfile : null;
+    }
 
+    getUser():User{
+        let userData:any = localStorage.getItem(this.USER_STRING);
+        if(userData){
+            userData = JSON.parse(userData);
+        }
+        return userData;
+    }
+
+    private updateReward(habit:Habit){
+        let user = this.loadUser();
+        if(user){
+            if(habit.goodHabit){
+                user.reward = user.reward + habit.reward;
+            }
+            if(!habit.goodHabit){
+                user.reward = user.reward - habit.reward;
+            }
+            this.saveUser(user);
+        }
     }
 
     addHabit(habit:Habit): boolean {
+        let habitAdded = false;
         if (habit.maxDay) {
             if (this.hasCompletedDailyMaxTimes(habit)) {
                 return false;
             }
             this.completedDailyHabits.habits.push(habit.id);
-            this.saveToLocalStorage(this.DAILY_HABITS_STRING, this.completedDailyHabits);
+            this.dataStore.saveData(this.DAILY_HABITS_STRING, this.completedDailyHabits);
+            habitAdded = true;
         }
 
         if (habit.maxWeek) {
@@ -42,7 +69,8 @@ export class UserDataService {
                 return false;
             }
             this.completedWeeklyHabits.habits.push(habit.id);
-            this.saveToLocalStorage(this.WEEKLY_HABITS_STRING, this.completedWeeklyHabits);
+            this.dataStore.saveData(this.WEEKLY_HABITS_STRING, this.completedWeeklyHabits);
+            habitAdded = true;
         }
 
         if (habit.maxMonth) {
@@ -50,9 +78,15 @@ export class UserDataService {
                 return false;
             }
             this.completedMonthlyHabits.habits.push(habit.id);
-            this.saveToLocalStorage(this.MONTHLY_HABITS_STRING, this.completedMonthlyHabits);
+            this.dataStore.saveData(this.MONTHLY_HABITS_STRING, this.completedMonthlyHabits);
+            habitAdded = true;
         }
-        return false;
+
+        if(habitAdded){
+            this.updateReward(habit);
+        }
+
+        return habitAdded;
     }
 
     hasCompletedMaxTimes(habit:Habit):boolean {
@@ -61,20 +95,38 @@ export class UserDataService {
             this.hasCompletedMonthlyMaxTimes(habit);
     }
 
+    timesCompletedToday(habit:Habit):number{
+        return this.completedDailyHabits.habits.filter(h => h === habit.id).length;
+    }
+
     hasCompletedDailyMaxTimes(habit:Habit): boolean {
-        return habit.maxDay > 0 && this.completedDailyHabits.habits.filter(h => h === habit.id).length >= habit.maxDay;
+        return habit.maxDay > 0 &&
+            this.dateService.isCurrentDay(this.completedDailyHabits.date) &&
+            this.completedDailyHabits.habits.filter(h => h === habit.id).length >= habit.maxDay;
+    }
+
+    timesCompletedThisWeek(habit:Habit):number{
+        return this.completedWeeklyHabits.habits.filter(h => h === habit.id).length;
     }
 
     hasCompletedWeeklyMaxTimes(habit:Habit): boolean {
-        return habit.maxWeek > 0 && this.completedWeeklyHabits.habits.filter((h) => h == habit.id).length >= habit.maxWeek;
+        return habit.maxWeek > 0 &&
+            this.dateService.isCurrentWeek(this.completedWeeklyHabits.date) &&
+            this.completedWeeklyHabits.habits.filter((h) => h == habit.id).length >= habit.maxWeek;
+    }
+
+    timesCompletedThisMonth(habit:Habit):number{
+        return this.completedMonthlyHabits.habits.filter(h => h === habit.id).length;
     }
 
     hasCompletedMonthlyMaxTimes(habit:Habit): boolean {
-        return habit.maxMonth > 0 && this.completedMonthlyHabits.habits.filter((h) => h == habit.id).length >= habit.maxMonth;
+        return habit.maxMonth > 0 &&
+            this.dateService.isCurrentMonth(this.completedMonthlyHabits.date) &&
+            this.completedMonthlyHabits.habits.filter((h) => h == habit.id).length >= habit.maxMonth;
     }
 
     private loadCompletedDailyHabits():void {
-        let dailyHabits = JSON.parse(localStorage.getItem(this.DAILY_HABITS_STRING));
+        let dailyHabits = this.dataStore.loadData(this.DAILY_HABITS_STRING);
         const today = new Date().getDate();
         if (!dailyHabits || dailyHabits.date != today) {
             dailyHabits = {
@@ -84,12 +136,12 @@ export class UserDataService {
         }
 
         this.completedDailyHabits = dailyHabits;
-        this.saveToLocalStorage(this.DAILY_HABITS_STRING, this.completedDailyHabits);
+        this.dataStore.saveData(this.DAILY_HABITS_STRING, this.completedDailyHabits);
     }
 
     private loadCompletedWeeklyHabits():void {
-        let weeklyHabits = JSON.parse(localStorage.getItem(this.WEEKLY_HABITS_STRING));
-        const currentWeek = UserDataService.weekNumber();
+        let weeklyHabits = this.dataStore.loadData(this.WEEKLY_HABITS_STRING);
+        const currentWeek = this.dateService.getWeekNumber();
         if (!weeklyHabits || weeklyHabits.date != currentWeek) {
             weeklyHabits = {
                 habits: [],
@@ -98,12 +150,12 @@ export class UserDataService {
         }
 
         this.completedWeeklyHabits = weeklyHabits;
-        this.saveToLocalStorage(this.WEEKLY_HABITS_STRING, this.completedWeeklyHabits);
+        this.dataStore.saveData(this.WEEKLY_HABITS_STRING, this.completedWeeklyHabits);
     }
 
-    private loadCompletedMonthklyHabits():void {
-        let monthlyHabits = JSON.parse(localStorage.getItem(this.MONTHLY_HABITS_STRING));
-        const currentMonth = new Date().getMonth();
+    private loadCompletedMonthlyHabits():void {
+        let monthlyHabits = this.dataStore.loadData(this.MONTHLY_HABITS_STRING);
+        const currentMonth = new Date().getMonth() + 1;
         if (!monthlyHabits || monthlyHabits.date != currentMonth) {
             monthlyHabits = {
                 habits: [],
@@ -112,18 +164,9 @@ export class UserDataService {
         }
 
         this.completedMonthlyHabits = monthlyHabits;
-        this.saveToLocalStorage(this.MONTHLY_HABITS_STRING, this.completedMonthlyHabits);
+        this.dataStore.saveData(this.MONTHLY_HABITS_STRING, this.completedMonthlyHabits);
     }
 
-    private saveToLocalStorage(key:string, data:any) {
-        localStorage.setItem(key, JSON.stringify(data));
-    }
 
-    private static weekNumber():number {
-        let d: any = new Date();
-        d.setHours(0, 0, 0, 0);
-        d.setDate(d.getDate() + 4 - (d.getDay() || 7));
-        const yearStart: any = new Date(d.getFullYear(), 0, 1);
-        return Math.ceil(( ( (d - yearStart) / 86400000) + 1) / 7);
-    };
+
 }

@@ -1,0 +1,59 @@
+body{
+    color: $secondary-color;
+    font-family: 'Roboto', sans-serif;
+    margin:0;
+    background-color: $primary-color;
+}
+
+/* Lists */
+ul{
+    list-style: none;
+    padding-left: 0;
+}
+
+/* Headings */
+h1, h2, h3, h4{
+    font-family: 'Sarpanch', sans-serif;
+    font-weight: 700;
+}
+
+h1{
+    font-weight: 900;
+    text-align: center;
+}
+
+.section-heading{
+    position:relative;
+    overflow: hidden;
+    clear: both;
+    text-align: center;
+
+    &:before{
+        content: "";
+        width: 999em;
+        height: 1px;
+        position: absolute;
+        top: 50%;
+        left: 0;
+        background-color: $secondary-color;
+    }
+
+    span{
+        background-color: $primary-color;
+        padding: 0 $padding-medium;
+        position:relative;
+    }
+}
+
+/**/
+article{
+    > header{
+        padding: $padding-medium;
+        background-color: $accent-color;
+        border-bottom: 1px solid $secondary-color-dark;
+
+        h2{
+            margin-top: $padding-small;
+        }
+    }
+}

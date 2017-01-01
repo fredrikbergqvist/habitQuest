@@ -3,8 +3,7 @@ import {User} from '../models/user';
 
 @Component({
     selector:    'app-register-user',
-    templateUrl: './register-user.component.html',
-    styleUrls:   ['./register-user.component.scss']
+    templateUrl: './register-user.component.html'
 })
 export class RegisterUserComponent implements OnInit {
     @Output() onChange:EventEmitter<User>;

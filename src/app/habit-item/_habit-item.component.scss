@@ -1,0 +1,45 @@
+.habit-item{
+    clear: both;
+    margin-bottom: $padding-medium;
+    padding-top: $padding-medium;
+    border-top: 1px solid $tertiary-color;
+
+    header{
+        float: left;
+
+        p{
+            display: none;
+        }
+    }
+
+    h3{
+        margin-top: 0;
+        margin-bottom: $padding-small;
+    }
+
+    .habit-quests{
+        clear: both;
+    }
+
+    .add-habit{
+        padding: $padding-small $padding-medium;
+        background: $secondary-color;
+        color: $primary-color-light;
+        border: 1px solid $primary-color;
+        border-radius: $padding-small;
+        float: right;
+
+        &:disabled{
+            background: $tertiary-color;
+            color:$secondary-color
+        }
+    }
+
+    &.good-habit{
+
+    }
+    &.bad-habit{
+
+    }
+
+}
