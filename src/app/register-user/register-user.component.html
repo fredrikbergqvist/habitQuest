@@ -1,0 +1,33 @@
+
+<h2>Registrera</h2>
+
+<fieldset>
+    <form (ngSubmit)="onSubmit()" #registerForm="ngForm">
+        <div class="input-item">
+            <label for="name">Ditt namn</label>
+            <input type="text"
+                   placeholder="Namn"
+                   id="name"
+                   required
+                   [(ngModel)]="model.name"
+                   name="name"
+                   #name="ngModel"
+            />
+        </div>
+        <div class="input-item">
+            <label for="goal">Mål</label>
+            <input type="text" placeholder="Mål" id="goal"
+                   [(ngModel)]="model.goal.title" name="goal" />
+        </div>
+        <div class="input-item">
+            <label for="amount"></label>
+            <input type="text" placeholder="Målsumma"
+                   [(ngModel)]="model.goal.amount"
+                   name="amount"
+                   id="amount" />
+        </div>
+
+
+        <button type="submit">Spara</button>
+    </form>
+</fieldset>

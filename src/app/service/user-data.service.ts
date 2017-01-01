@@ -1,11 +1,13 @@
 import {Injectable} from '@angular/core';
 import {Habit} from '../models/habit';
+import {User} from '../models/user';
 
 @Injectable()
 export class UserDataService {
     private DAILY_HABITS_STRING = 'completedDailyHabits';
     private WEEKLY_HABITS_STRING = 'completedWeeklyHabits';
     private MONTHLY_HABITS_STRING = 'completedMonthlyHabits';
+    private USER_STRING = 'userHabits';
     completedDailyHabits: {date: number, habits: Array<number>};
     completedWeeklyHabits: {date: number, habits: Array<number>};
     completedMonthlyHabits: {date: number, habits: Array<number>};
@@ -16,13 +18,23 @@ export class UserDataService {
         this.loadCompletedMonthklyHabits();
     }
 
+    saveUser(user:User){
+        this.saveToLocalStorage(this.USER_STRING, user);
+    }
+
+    loadUser(){
+        const userData = localStorage.getItem(this.USER_STRING);
+        return userData ? JSON.parse(userData) : null;
+
+    }
+
     addHabit(habit:Habit): boolean {
         if (habit.maxDay) {
             if (this.hasCompletedDailyMaxTimes(habit)) {
                 return false;
             }
             this.completedDailyHabits.habits.push(habit.id);
-            UserDataService.saveHabits(this.DAILY_HABITS_STRING, this.completedDailyHabits);
+            this.saveToLocalStorage(this.DAILY_HABITS_STRING, this.completedDailyHabits);
         }
 
         if (habit.maxWeek) {
@@ -30,7 +42,7 @@ export class UserDataService {
                 return false;
             }
             this.completedWeeklyHabits.habits.push(habit.id);
-            UserDataService.saveHabits(this.WEEKLY_HABITS_STRING, this.completedWeeklyHabits);
+            this.saveToLocalStorage(this.WEEKLY_HABITS_STRING, this.completedWeeklyHabits);
         }
 
         if (habit.maxMonth) {
@@ -38,7 +50,7 @@ export class UserDataService {
                 return false;
             }
             this.completedMonthlyHabits.habits.push(habit.id);
-            UserDataService.saveHabits(this.MONTHLY_HABITS_STRING, this.completedMonthlyHabits);
+            this.saveToLocalStorage(this.MONTHLY_HABITS_STRING, this.completedMonthlyHabits);
         }
         return false;
     }
@@ -72,7 +84,7 @@ export class UserDataService {
         }
 
         this.completedDailyHabits = dailyHabits;
-        UserDataService.saveHabits(this.DAILY_HABITS_STRING, this.completedDailyHabits);
+        this.saveToLocalStorage(this.DAILY_HABITS_STRING, this.completedDailyHabits);
     }
 
     private loadCompletedWeeklyHabits():void {
@@ -86,7 +98,7 @@ export class UserDataService {
         }
 
         this.completedWeeklyHabits = weeklyHabits;
-        UserDataService.saveHabits(this.WEEKLY_HABITS_STRING, this.completedWeeklyHabits);
+        this.saveToLocalStorage(this.WEEKLY_HABITS_STRING, this.completedWeeklyHabits);
     }
 
     private loadCompletedMonthklyHabits():void {
@@ -100,11 +112,11 @@ export class UserDataService {
         }
 
         this.completedMonthlyHabits = monthlyHabits;
-        UserDataService.saveHabits(this.MONTHLY_HABITS_STRING, this.completedMonthlyHabits);
+        this.saveToLocalStorage(this.MONTHLY_HABITS_STRING, this.completedMonthlyHabits);
     }
 
-    private static saveHabits(habitString:string, data:any) {
-        localStorage.setItem(habitString, JSON.stringify(data));
+    private saveToLocalStorage(key:string, data:any) {
+        localStorage.setItem(key, JSON.stringify(data));
     }
 
     private static weekNumber():number {

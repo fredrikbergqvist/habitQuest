@@ -9,12 +9,14 @@ import {HabitDataService} from './service/habit-data.service';
 import {UserDataService} from './service/user-data.service';
 import { HabitGroupComponent } from './habit-group/habit-group.component';
 import {HttpService} from './service/http.service';
+import { RegisterUserComponent } from './register-user/register-user.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HabitItemComponent,
-    HabitGroupComponent
+    HabitGroupComponent,
+    RegisterUserComponent
   ],
   imports: [
     BrowserModule,
