@@ -1,0 +1,29 @@
+{
+  "version": "1.0.0",
+  "name": "Habit Quest",
+  "launch_path": "/index.html",
+  "description": "Make new habits as quests",
+  "icons": {
+    "128": "/images/touch/icon-128x128.png"
+  },
+  "developer": {
+    "name": "Fredrik Bergqvist",
+    "url": "http://fredrikbergqvist.se"
+  },
+  "installs_allowed_from": [
+    "*"
+  ],
+  "default_locale": "sv",
+  "permissions": {
+  },
+  "locales": {
+    "sv": {
+      "name": "Habit Quest",
+      "description": "Habit Quest"
+    },
+    "en": {
+      "name": "Habit Quest",
+      "description": "Habit Quest"
+    }
+  }
+}

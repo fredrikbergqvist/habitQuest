@@ -13,6 +13,7 @@ import {DateService} from './service/date.service';
 import {DataStoreService} from './service/data-store.service';
 import {WindowVisibilityService} from './service/window-visibility.service';
 import {WindowService} from './service/window.service';
+import {ServiceWorkerService} from './service/service-worker.service';
 
 @NgModule({
     declarations: [
@@ -33,7 +34,8 @@ import {WindowService} from './service/window.service';
         DateService,
         DataStoreService,
         WindowVisibilityService,
-        WindowService
+        WindowService,
+        ServiceWorkerService
     ],
     bootstrap:    [AppComponent]
 })

@@ -1,0 +1,110 @@
+{
+	"habitGroups":
+	[
+		{
+			"name": "Träning",
+			"description": "Olika vanor för träning",
+			"habits": [
+				{
+					"id": 1000,
+					"name": "Pass: Kampsport",
+					"note": "Minst 50 minuter",
+					"reward": 50,
+					"maxDay": 1,
+					"maxWeek": 5,
+					"maxMonth": 0,
+					"goodHabit": true
+				},
+				{
+					"id": 1010,
+					"name": "Pass: Styrketräning",
+					"note": "Minst 50 minuter",
+					"reward": 25,
+					"maxDay": 1,
+					"maxWeek": 3,
+					"maxMonth": 0,
+					"goodHabit": true
+				},
+				{
+					"id": 1011,
+					"name": "Handstyrka",
+					"note": "",
+					"reward": 5,
+					"maxDay": 1,
+					"maxWeek": 3,
+					"maxMonth": 0,
+					"goodHabit": true
+				},
+				{
+					"id": 1020,
+					"name": "Löpning",
+					"note": "Minst 5km",
+					"reward": 25,
+					"maxDay": 1,
+					"maxWeek": 0,
+					"maxMonth": 0,
+					"goodHabit": true
+				},
+				{
+					"id": 1100,
+					"name": "Promenad",
+					"note": "Minst 60 minuter i sträck",
+					"reward": 25,
+					"maxDay": 1,
+					"maxWeek": 0,
+					"maxMonth": 0,
+					"goodHabit": true
+				}]
+		},
+		{
+			"name": "Mat",
+			"description": "",
+			"habits": [
+				{
+					"id": 2000,
+					"name": "Inga kolhydrater",
+					"note": "Inga kolhydrater till måltider (pasta, potatis, bröd osv)",
+					"reward": 25,
+					"maxDay": 1,
+					"maxWeek": 0,
+					"maxMonth": 0,
+					"goodHabit": true
+				},
+				{
+					"id": 2100,
+					"name": "Ätit godis",
+					"note": "Har ätit godis idag",
+					"reward": -100,
+					"maxDay": 1,
+					"maxWeek": 0,
+					"maxMonth": 0,
+					"goodHabit": false
+				},
+				{
+					"id": 2101,
+					"name": "Ätit snabbmat",
+					"note": "Har ätit snabbmat till lunch eller middag idag",
+					"reward": -100,
+					"maxDay": 1,
+					"maxWeek": 0,
+					"maxMonth": 0,
+					"goodHabit": false
+				}]
+		},
+		{
+			"name": "Vanor",
+			"description": "",
+			"habits": [
+				{
+					"id":3000,
+					"name": "Borsta tänderna",
+					"note": "Två minuter med eltandborste",
+					"reward": 2.5,
+					"maxDay": 2,
+					"maxWeek": 0,
+					"maxMonth": 0,
+					"goodHabit": true
+				}]
+		}
+	]
+}

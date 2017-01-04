@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Headers, Http} from '@angular/http';
 import {Observable} from 'rxjs';
-import 'rxjs/add/operator/map'
+import 'rxjs/add/operator/map';
 
 @Injectable()
 export class HttpService {
@@ -13,7 +13,7 @@ export class HttpService {
      * @param args RequestOptionsArgs to the http call
      * @return Observable<json>
      */
-    get(apiUrl: string, args?: any): Observable<any> {
+    get(apiUrl: string, args?: any, responseCallbackFn?: any): Observable<any> {
         if (!args) {
             const headers = new Headers();
             headers.append('X-Requested-With', 'XMLHttpRequest');
@@ -24,6 +24,9 @@ export class HttpService {
 
         return this.http.get(apiUrl, args)
             .map((responseData) => {
+                if (responseCallbackFn) {
+                    responseCallbackFn(responseData);
+                }
                 return responseData.json();
             });
     }

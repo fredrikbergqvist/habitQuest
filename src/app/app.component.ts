@@ -4,6 +4,7 @@ import {HabitGroup} from './models/habit-group';
 import {UserDataService} from './service/user-data.service';
 import {User} from './models/user';
 import {WindowVisibilityService} from './service/window-visibility.service';
+import {ServiceWorkerService} from './service/service-worker.service';
 
 @Component({
     selector:    'app-root',
@@ -16,10 +17,12 @@ export class AppComponent implements OnInit {
 
     constructor(private habitDataService: HabitDataService,
                 private userDataService: UserDataService,
-                private visibilityService: WindowVisibilityService) {
+                private visibilityService: WindowVisibilityService,
+    private serviceWorkerService:ServiceWorkerService) {
     }
 
     public ngOnInit(): void {
+        this.serviceWorkerService.register();
         this.visibilityService.monitorVisibility();
         this.visibilityService.register(()=>this.initialize());
         this.initialize();
