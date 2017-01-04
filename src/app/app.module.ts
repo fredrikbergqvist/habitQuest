@@ -11,6 +11,8 @@ import {HttpService} from './service/http.service';
 import {RegisterUserComponent} from './register-user/register-user.component';
 import {DateService} from './service/date.service';
 import {DataStoreService} from './service/data-store.service';
+import {WindowVisibilityService} from './service/window-visibility.service';
+import {WindowService} from './service/window.service';
 
 @NgModule({
     declarations: [
@@ -29,7 +31,9 @@ import {DataStoreService} from './service/data-store.service';
         UserDataService,
         HttpService,
         DateService,
-        DataStoreService
+        DataStoreService,
+        WindowVisibilityService,
+        WindowService
     ],
     bootstrap:    [AppComponent]
 })

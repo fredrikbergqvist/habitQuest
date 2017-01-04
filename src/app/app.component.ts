@@ -3,6 +3,7 @@ import {HabitDataService} from './service/habit-data.service';
 import {HabitGroup} from './models/habit-group';
 import {UserDataService} from './service/user-data.service';
 import {User} from './models/user';
+import {WindowVisibilityService} from './service/window-visibility.service';
 
 @Component({
     selector:    'app-root',
@@ -10,17 +11,27 @@ import {User} from './models/user';
     styleUrls:   ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
-    habitGroups:Array<HabitGroup> = [];
-    userData:User;
+    habitGroups: Array<HabitGroup> = [];
+    userData: User;
 
-    constructor(private habitDataService:HabitDataService, private userDataService:UserDataService) {}
-
-    public ngOnInit(): void {
-        this.habitDataService.getHabits().subscribe((hl:Array<HabitGroup>) => this.habitGroups = hl);
-        this.userData = this.userDataService.loadUser();
+    constructor(private habitDataService: HabitDataService,
+                private userDataService: UserDataService,
+                private visibilityService: WindowVisibilityService) {
     }
 
-    onRegister(user:User){
+    public ngOnInit(): void {
+        this.visibilityService.monitorVisibility();
+        this.visibilityService.register(()=>this.initialize());
+        this.initialize();
+    }
+
+    private initialize(){
+        this.habitDataService.getHabits().subscribe((hl: Array<HabitGroup>) => this.habitGroups = hl);
+        this.userData = this.userDataService.loadUser();
+
+    }
+
+    onRegister(user: User) {
         this.userData = user;
         this.userDataService.saveUser(user);
     }
