@@ -1,0 +1,10 @@
+.main-article{
+    header{
+        .current-total{
+            font-weight: bold;
+            &:after{
+                content: " SEK";
+            }
+        }
+    }
+}

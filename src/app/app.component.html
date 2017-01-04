@@ -4,17 +4,17 @@
             <span>Habit</span><span>Quest</span>
         </h1>
 
-        <div class="current-total">
-            <span>{{userData?.reward}}</span>
+        <div>
+
         </div>
     </header>
 
     <app-register-user *ngIf="!userData" (onChange)="onRegister($event)"></app-register-user>
 
-    <article *ngIf="userData">
+    <article class="main-article" *ngIf="userData">
         <header>
             <h2><span>Hej {{userData?.name}}!</span></h2>
-            <p>Sätt igång och spara dina vanor!</p>
+            <p>Du har sparat ihop <span class="current-total">{{userData?.reward}}</span></p>
         </header>
 
         <app-habit-group [habitGroup]="habitGroup" *ngFor="let habitGroup of habitGroups"></app-habit-group>
