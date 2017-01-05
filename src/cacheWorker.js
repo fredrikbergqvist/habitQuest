@@ -1,4 +1,3 @@
-var self = this;
 var version = 'v1::';
 var filesToCache = [
     '/',
