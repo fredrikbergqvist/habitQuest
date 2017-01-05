@@ -40,15 +40,19 @@ export class UserDataService {
         return userData;
     }
 
-    private updateReward(habit:Habit){
+    private addToCurrentTotal(habit:Habit){
         let user = this.loadUser();
         if(user){
-            if(habit.goodHabit){
-                user.reward = user.reward + habit.reward;
-            }
-            if(!habit.goodHabit){
-                user.reward = user.reward - habit.reward;
-            }
+            user.reward = user.reward + habit.reward;
+
+            this.saveUser(user);
+        }
+    }
+    private removeFromCurrentTotal(habit:Habit){
+        let user = this.loadUser();
+        if(user){
+            user.reward = user.reward - habit.reward;
+
             this.saveUser(user);
         }
     }
@@ -83,10 +87,48 @@ export class UserDataService {
         }
 
         if(habitAdded){
-            this.updateReward(habit);
+            this.addToCurrentTotal(habit);
         }
 
         return habitAdded;
+    }
+
+    removeHabit(habit:Habit){
+        let firstIndexOf = -1;
+        let habitRemoved = false;
+        if (habit.maxDay) {
+            firstIndexOf = this.completedDailyHabits.habits.indexOf(habit.id);
+            if(firstIndexOf > -1){
+                this.completedDailyHabits.habits.splice(firstIndexOf, 1);
+
+                this.dataStore.saveData(this.DAILY_HABITS_STRING, this.completedDailyHabits);
+                habitRemoved = true;
+                firstIndexOf = -1;
+            }
+        }
+
+        if (habit.maxWeek) {
+            firstIndexOf = this.completedWeeklyHabits.habits.indexOf(habit.id);
+            if(firstIndexOf > -1){
+                this.completedWeeklyHabits.habits.splice(firstIndexOf, 1);
+                this.dataStore.saveData(this.WEEKLY_HABITS_STRING, this.completedWeeklyHabits);
+                habitRemoved = true;
+                firstIndexOf = -1;
+            }
+        }
+
+        if (habit.maxMonth) {
+            firstIndexOf = this.completedMonthlyHabits.habits.indexOf(habit.id);
+            if(firstIndexOf > -1){
+                this.completedMonthlyHabits.habits.splice(firstIndexOf, 1);
+                this.dataStore.saveData(this.MONTHLY_HABITS_STRING, this.completedMonthlyHabits);
+                habitRemoved = true;
+            }
+        }
+
+        if(habitRemoved){
+            this.removeFromCurrentTotal(habit);
+        }
     }
 
     hasCompletedMaxTimes(habit:Habit):boolean {

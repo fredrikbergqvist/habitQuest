@@ -6,11 +6,17 @@
     </header>
 
     <button
+        class="remove-habit"
+        type="button"
+        (click)="removeHabit()"
+        [disabled]="completedDailyCount() == 0" *ngIf="completedDailyCount() > 0"><span class="icon-minus"></span><span class="visuallyhidden">Ta bort</span></button>
+
+    <button
         class="add-habit"
         type="button"
         (click)="addHabit()"
-        [disabled]="hasCompleted()"><span class="icon-plus"></span><span class="visuallyhidden">Lägg till</span></button>
-
+        [disabled]="hasCompleted()"
+        *ngIf="completedDailyCount() < habit.maxDay"><span class="icon-plus"></span><span class="visuallyhidden">Lägg till</span></button>
 
     <ul class="habit-quests">
         <li *ngIf="habit.maxDay > 0" class="daily-quest">

@@ -17,6 +17,10 @@ export class HabitItemComponent implements OnInit {
         this.userDataService.addHabit(this.habit);
     }
 
+    removeHabit():void{
+        this.userDataService.removeHabit(this.habit);
+    }
+
     hasCompleted():boolean{
         return this.userDataService.hasCompletedMaxTimes(this.habit);
     }
