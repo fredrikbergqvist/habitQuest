@@ -11,7 +11,7 @@ export class HabitDataService {
     constructor(private http:HttpService) {}
 
     getHabits():Observable<Array<HabitGroup>>{
-        return this.http.get("/assets/json/habits.json")
+        return this.http.get("https://dl.dropboxusercontent.com/u/2132168/habit/habits.json")
             .map((habitList:{habitGroups:[any]}) => {
                 if (habitList.habitGroups) {
                     habitList.habitGroups.forEach((h:HabitGroup) => {
