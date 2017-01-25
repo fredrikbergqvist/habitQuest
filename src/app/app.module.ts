@@ -15,6 +15,7 @@ import {WindowVisibilityService} from './service/window-visibility.service';
 import {WindowService} from './service/window.service';
 import {ServiceWorkerService} from './service/service-worker.service';
 import { SelectDateComponent } from './select-date/select-date.component';
+import { NavigationComponent } from './navigation/navigation.component';
 
 @NgModule({
     declarations: [
@@ -22,7 +23,8 @@ import { SelectDateComponent } from './select-date/select-date.component';
         HabitItemComponent,
         HabitGroupComponent,
         RegisterUserComponent,
-        SelectDateComponent
+        SelectDateComponent,
+        NavigationComponent
     ],
     imports:      [
         BrowserModule,
