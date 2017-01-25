@@ -1,0 +1,6 @@
+<div class="select-date">
+    <p class="selected-date">{{dateService.selectedDate.toLocaleString('sv-SE', { year: 'numeric', month: 'numeric', day: 'numeric' })}}</p>
+    <button class="previous-date no-button" (click)="previousDay()"><span class=" icon-circle-left"></span><span class="visuallyhidden">Föregående</span></button>
+    <button class="today" (click)="today()" *ngIf="false"><span class="">Idag</span></button>
+    <button class="next-date no-button" *ngIf="!isSelectedToday()" (click)="nextDay()"><span class="icon-circle-right"></span><span class="visuallyhidden">Nästa</span></button>
+</div>

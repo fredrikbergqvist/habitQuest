@@ -14,13 +14,15 @@ import {DataStoreService} from './service/data-store.service';
 import {WindowVisibilityService} from './service/window-visibility.service';
 import {WindowService} from './service/window.service';
 import {ServiceWorkerService} from './service/service-worker.service';
+import { SelectDateComponent } from './select-date/select-date.component';
 
 @NgModule({
     declarations: [
         AppComponent,
         HabitItemComponent,
         HabitGroupComponent,
-        RegisterUserComponent
+        RegisterUserComponent,
+        SelectDateComponent
     ],
     imports:      [
         BrowserModule,

@@ -1,0 +1,22 @@
+.select-date{
+    background-color: $secondary-color-light;
+    overflow: hidden;
+
+    .selected-date{
+        text-align: center;
+    }
+
+    .next-date,
+    .previous-date{
+        font-size: 38px;
+        line-height: 1;
+        margin: -47px 20px 0;
+    }
+
+    .previous-date{
+        float:left;
+    }
+    .next-date{
+        float:right;
+    }
+}
