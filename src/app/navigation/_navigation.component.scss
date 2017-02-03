@@ -8,10 +8,19 @@
     }
 
     .navigation-list{
-        display: none;
+        position: absolute;
+        width: 300px;
+        margin-right: -300px;
+        transition: 300ms margin ease-out;
+        height: 100vh;
+        background: #fff;
+        right:0
+    }
 
-        &.show{
-            display: block;
+    &.show{
+        .navigation-list{
+            transition: 300ms margin ease-in;
+            margin-right: 0;
         }
     }
 }

@@ -1,5 +1,5 @@
-<nav class="main-navigation">
-    <button class="no-button open-menu"><span class="icon-menu"></span> <span class="visuallyhidden">Öppna navigation</span></button>
+<nav class="main-navigation" [ngClass]="{'show': navigationOpen}">
+    <button class="no-button open-menu" (click)="openNavigation()"><span class="icon-menu"></span> <span class="visuallyhidden">Öppna navigation</span></button>
 
     <ul class="navigation-list">
         <li>
