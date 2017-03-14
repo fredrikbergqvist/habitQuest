@@ -7,6 +7,7 @@ import {HabitGroup} from '../models/habit-group';
 })
 export class HabitGroupComponent implements OnInit, OnChanges {
     @Input() habitGroup:HabitGroup;
+    @Input() selectedDate:any;
 
     constructor() {}
 

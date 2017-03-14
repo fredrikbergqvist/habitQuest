@@ -1,38 +1,35 @@
-import {Component, OnInit} from '@angular/core';
-import {DateService} from '../service/date.service';
+import {Component, Output, EventEmitter} from '@angular/core';
 
 @Component({
     selector:    'app-select-date',
     templateUrl: './select-date.component.html'
 })
-export class SelectDateComponent implements OnInit {
+export class SelectDateComponent {
+    @Output() dateChanged = new EventEmitter();
+    selectedDate = new Date();
 
-    constructor(public dateService: DateService) {
-    }
-
-    ngOnInit() {
+    setDate(newDate){
+        this.selectedDate.setDate(newDate);
+        this.dateChanged.emit(this.selectedDate);
     }
 
     isSelectedToday(): boolean {
         const today = new Date();
-        return today.getDate() == this.dateService.selectedDate.getDate() &&
-            today.getMonth() == this.dateService.selectedDate.getMonth() &&
-            today.getFullYear() == this.dateService.selectedDate.getFullYear();
+        return today.getDate() == this.selectedDate.getDate() &&
+            today.getMonth() == this.selectedDate.getMonth() &&
+            today.getFullYear() == this.selectedDate.getFullYear();
     }
 
     previousDay() {
-        this.dateService.selectedDate.setDate(this.dateService.selectedDate.getDate()-1);
-        this.dateService.setSelectedDate(this.dateService.selectedDate);
+        this.setDate(this.selectedDate.getDate()-1);
     }
 
     nextDay() {
-        this.dateService.selectedDate.setDate(this.dateService.selectedDate.getDate()+1);
-        this.dateService.setSelectedDate(this.dateService.selectedDate);
+        this.setDate(this.selectedDate.getDate()+1);
     }
 
     today():void{
-        this.dateService.setSelectedDate(new Date());
-
+        this.setDate(new Date());
     }
 
 }

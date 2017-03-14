@@ -14,6 +14,7 @@ import {ServiceWorkerService} from './service/service-worker.service';
 export class AppComponent implements OnInit {
     habitGroups: Array<HabitGroup> = [];
     userData: User;
+    selectedDate:any;
 
     constructor(private habitDataService: HabitDataService,
                 private userDataService: UserDataService,
@@ -37,5 +38,12 @@ export class AppComponent implements OnInit {
     onRegister(user: User) {
         this.userData = user;
         this.userDataService.saveUser(user);
+    }
+
+    dateChanged(newDate){
+        this.selectedDate = null;
+        this.selectedDate = new Date(newDate);
+        this.userDataService.handleSelectedDateChange(this.selectedDate);
+        console.log('this.selectedDate = newDate', this.selectedDate, newDate)
     }
 }

@@ -10,17 +10,17 @@
     .navigation-list{
         position: absolute;
         width: 300px;
-        margin-right: -300px;
-        transition: 300ms margin ease-out;
+        transition: 300ms all ease-out;
         height: 100vh;
         background: #fff;
-        right:0
+        right:0;
+        transform: translate(100%);
     }
 
     &.show{
         .navigation-list{
-            transition: 300ms margin ease-in;
-            margin-right: 0;
+            transition: 300ms all ease-in;
+            transform: translate(0);
         }
     }
 }

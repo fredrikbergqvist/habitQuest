@@ -30,7 +30,7 @@ self.addEventListener('activate', function (event) {
 
 self.addEventListener('fetch', function (event) {
     if (event.request.method !== 'GET') {
-        console.log('WORKER: fetch event ignored.', event.request.method, event.request.url);
+        //console.log('WORKER: fetch event ignored.', event.request.method, event.request.url);
         return;
     }
 
@@ -46,7 +46,7 @@ self.addEventListener('fetch', function (event) {
                 function fetchedFromNetwork(response) {
                     var cacheCopy = response.clone();
 
-                    console.log('WORKER: fetch response from network.', event.request.url);
+                    //console.log('WORKER: fetch response from network.', event.request.url);
 
                     caches
                         .open(version + 'habitQuest')
@@ -54,7 +54,7 @@ self.addEventListener('fetch', function (event) {
                             cache.put(event.request, cacheCopy);
                         })
                         .then(function () {
-                            console.log('WORKER: fetch response stored in cache.', event.request.url);
+                            //console.log('WORKER: fetch response stored in cache.', event.request.url);
                         });
 
                     // Return the response so that the promise is settled in fulfillment.
@@ -62,7 +62,7 @@ self.addEventListener('fetch', function (event) {
                 }
 
                 function unableToResolve() {
-                    console.log('WORKER: fetch request failed in both cache and network.');
+                    //console.log('WORKER: fetch request failed in both cache and network.');
                     return new Response('<h1>Service Unavailable</h1>', {
                         status : 503,
                         statusText : 'Service Unavailable',
@@ -76,7 +76,7 @@ self.addEventListener('fetch', function (event) {
 });
 
 self.addEventListener("activate", function(event) {
-    console.log('WORKER: activate event in progress.');
+    //console.log('WORKER: activate event in progress.');
 
     event.waitUntil(
         caches
@@ -93,7 +93,7 @@ self.addEventListener("activate", function(event) {
                 );
             })
             .then(function() {
-                console.log('WORKER: activate completed.');
+                //console.log('WORKER: activate completed.');
             })
     );
 });

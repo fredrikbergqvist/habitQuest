@@ -14,8 +14,8 @@
             <h2><span>Hej {{userData?.name}}!</span></h2>
             <p>Du har sparat ihop <span class="current-total">{{userData?.reward}}</span></p>
         </header>
-        <app-select-date></app-select-date>
-        <app-habit-group [habitGroup]="habitGroup" *ngFor="let habitGroup of habitGroups"></app-habit-group>
+        <app-select-date (dateChanged)="dateChanged($event)"></app-select-date>
+        <app-habit-group [habitGroup]="habitGroup" *ngFor="let habitGroup of habitGroups" [selectedDate]="selectedDate"></app-habit-group>
     </article>
 
 

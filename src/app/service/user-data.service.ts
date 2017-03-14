@@ -10,73 +10,74 @@ export class UserDataService {
     private WEEKLY_HABITS_STRING = 'completedWeeklyHabits_';
     private MONTHLY_HABITS_STRING = 'completedMonthlyHabits_';
     private USER_STRING = 'userHabits';
-    completedDailyHabits: {date: number, habits: Array<number>};
-    completedWeeklyHabits: {date: number, habits: Array<number>};
-    completedMonthlyHabits: {date: number, habits: Array<number>};
-    userProfile: User;
+    completedDailyHabits:{date:number, habits:Array<number>};
+    completedWeeklyHabits:{date:number, habits:Array<number>};
+    completedMonthlyHabits:{date:number, habits:Array<number>};
+    userProfile:User;
 
     constructor(private dateService:DateService, private dataStore:DataStoreService) {
-        this.loadCompletedDailyHabits();
-        this.loadCompletedWeeklyHabits();
-        this.loadCompletedMonthlyHabits();
-
-        dateService.getSelectedDate().subscribe(() => this.handleSelectedDateChange())
+        this.loadCompletedDailyHabits(new Date());
+        this.loadCompletedWeeklyHabits(new Date());
+        this.loadCompletedMonthlyHabits(new Date());
     }
 
-    getDailyHabitString():string{
-        return this.DAILY_HABITS_STRING + this.dateService.selectedDate.getFullYear() + this.dateService.selectedDate.getMonth() + this.dateService.selectedDate.getDate();
-    }
-    getWeeklyHabitString():string{
-        return this.WEEKLY_HABITS_STRING + this.dateService.selectedDate.getFullYear() + this.dateService.getWeekNumber();
-    }
-    getMonthlyHabitString():string{
-        return this.MONTHLY_HABITS_STRING + this.dateService.selectedDate.getFullYear() + (this.dateService.selectedDate.getMonth() + 1);
+    getDailyHabitString(selectedDate = new Date()):string {
+        return this.DAILY_HABITS_STRING + selectedDate.getFullYear() + selectedDate.getMonth() + selectedDate.getDate();
     }
 
-    saveUser(user:User){
+    getWeeklyHabitString(selectedDate = new Date()):string {
+        return this.WEEKLY_HABITS_STRING + selectedDate.getFullYear() + this.dateService.getWeekNumber(selectedDate);
+    }
+
+    getMonthlyHabitString(selectedDate = new Date()):string {
+        return this.MONTHLY_HABITS_STRING + selectedDate.getFullYear() + (selectedDate.getMonth() + 1);
+    }
+
+    saveUser(user:User) {
         this.dataStore.saveData(this.USER_STRING, user);
     }
 
-    loadUser(){
-        if(!this.userProfile){
+    loadUser() {
+        if (!this.userProfile) {
             this.userProfile = this.getUser();
         }
         return this.userProfile ? this.userProfile : null;
     }
 
-    getUser():User{
+    getUser():User {
         let userData:any = localStorage.getItem(this.USER_STRING);
-        if(userData){
+        if (userData) {
             userData = JSON.parse(userData);
         }
         return userData;
     }
 
-    private addToCurrentTotal(habit:Habit){
+    private addToCurrentTotal(habit:Habit) {
         let user = this.loadUser();
-        if(user){
+        if (user) {
             user.reward = user.reward + habit.reward;
 
             this.saveUser(user);
         }
     }
-    private removeFromCurrentTotal(habit:Habit){
+
+    private removeFromCurrentTotal(habit:Habit) {
         let user = this.loadUser();
-        if(user){
+        if (user) {
             user.reward = user.reward - habit.reward;
 
             this.saveUser(user);
         }
     }
 
-    addHabit(habit:Habit): boolean {
+    addHabit(habit:Habit, selectedDate):boolean {
         let habitAdded = false;
         if (habit.maxDay) {
             if (this.hasCompletedDailyMaxTimes(habit)) {
                 return false;
             }
             this.completedDailyHabits.habits.push(habit.id);
-            this.dataStore.saveData(this.getDailyHabitString(), this.completedDailyHabits);
+            this.dataStore.saveData(this.getDailyHabitString(selectedDate), this.completedDailyHabits);
             habitAdded = true;
         }
 
@@ -85,7 +86,7 @@ export class UserDataService {
                 return false;
             }
             this.completedWeeklyHabits.habits.push(habit.id);
-            this.dataStore.saveData(this.getWeeklyHabitString(), this.completedWeeklyHabits);
+            this.dataStore.saveData(this.getWeeklyHabitString(selectedDate), this.completedWeeklyHabits);
             habitAdded = true;
         }
 
@@ -94,26 +95,26 @@ export class UserDataService {
                 return false;
             }
             this.completedMonthlyHabits.habits.push(habit.id);
-            this.dataStore.saveData(this.getMonthlyHabitString(), this.completedMonthlyHabits);
+            this.dataStore.saveData(this.getMonthlyHabitString(selectedDate), this.completedMonthlyHabits);
             habitAdded = true;
         }
 
-        if(habitAdded){
+        if (habitAdded) {
             this.addToCurrentTotal(habit);
         }
 
         return habitAdded;
     }
 
-    removeHabit(habit:Habit){
+    removeHabit(habit:Habit, selectedDate) {
         let firstIndexOf = -1;
         let habitRemoved = false;
         if (habit.maxDay) {
             firstIndexOf = this.completedDailyHabits.habits.indexOf(habit.id);
-            if(firstIndexOf > -1){
+            if (firstIndexOf > -1) {
                 this.completedDailyHabits.habits.splice(firstIndexOf, 1);
 
-                this.dataStore.saveData(this.getDailyHabitString(), this.completedDailyHabits);
+                this.dataStore.saveData(this.getDailyHabitString(selectedDate), this.completedDailyHabits);
                 habitRemoved = true;
                 firstIndexOf = -1;
             }
@@ -121,9 +122,9 @@ export class UserDataService {
 
         if (habit.maxWeek) {
             firstIndexOf = this.completedWeeklyHabits.habits.indexOf(habit.id);
-            if(firstIndexOf > -1){
+            if (firstIndexOf > -1) {
                 this.completedWeeklyHabits.habits.splice(firstIndexOf, 1);
-                this.dataStore.saveData(this.getWeeklyHabitString(), this.completedWeeklyHabits);
+                this.dataStore.saveData(this.getWeeklyHabitString(selectedDate), this.completedWeeklyHabits);
                 habitRemoved = true;
                 firstIndexOf = -1;
             }
@@ -131,14 +132,14 @@ export class UserDataService {
 
         if (habit.maxMonth) {
             firstIndexOf = this.completedMonthlyHabits.habits.indexOf(habit.id);
-            if(firstIndexOf > -1){
+            if (firstIndexOf > -1) {
                 this.completedMonthlyHabits.habits.splice(firstIndexOf, 1);
-                this.dataStore.saveData(this.getMonthlyHabitString(), this.completedMonthlyHabits);
+                this.dataStore.saveData(this.getMonthlyHabitString(selectedDate), this.completedMonthlyHabits);
                 habitRemoved = true;
             }
         }
 
-        if(habitRemoved){
+        if (habitRemoved) {
             this.removeFromCurrentTotal(habit);
         }
     }
@@ -149,52 +150,52 @@ export class UserDataService {
             this.hasCompletedMonthlyMaxTimes(habit);
     }
 
-    timesCompletedToday(habit:Habit):number{
+    timesCompletedToday(habit:Habit):number {
         return this.completedDailyHabits.habits.filter(h => h === habit.id).length;
     }
 
-    hasCompletedDailyMaxTimes(habit:Habit): boolean {
+    hasCompletedDailyMaxTimes(habit:Habit):boolean {
         return habit.maxDay > 0 &&
             this.dateService.isCurrentDay(this.completedDailyHabits.date) &&
             this.completedDailyHabits.habits.filter(h => h === habit.id).length >= habit.maxDay;
     }
 
-    timesCompletedThisWeek(habit:Habit):number{
+    timesCompletedThisWeek(habit:Habit):number {
         return this.completedWeeklyHabits.habits.filter(h => h === habit.id).length;
     }
 
-    hasCompletedWeeklyMaxTimes(habit:Habit): boolean {
+    hasCompletedWeeklyMaxTimes(habit:Habit):boolean {
         return habit.maxWeek > 0 &&
             this.dateService.isCurrentWeek(this.completedWeeklyHabits.date) &&
             this.completedWeeklyHabits.habits.filter((h) => h == habit.id).length >= habit.maxWeek;
     }
 
-    timesCompletedThisMonth(habit:Habit):number{
+    timesCompletedThisMonth(habit:Habit):number {
         return this.completedMonthlyHabits.habits.filter(h => h === habit.id).length;
     }
 
-    hasCompletedMonthlyMaxTimes(habit:Habit): boolean {
+    hasCompletedMonthlyMaxTimes(habit:Habit):boolean {
         return habit.maxMonth > 0 &&
             this.dateService.isCurrentMonth(this.completedMonthlyHabits.date) &&
             this.completedMonthlyHabits.habits.filter((h) => h == habit.id).length >= habit.maxMonth;
     }
 
-    private loadCompletedDailyHabits():void {
-        let dailyHabits = this.dataStore.loadData(this.getDailyHabitString());
-        const selectedDate = this.dateService.selectedDate.getDate();
-        if (!dailyHabits || dailyHabits.date != selectedDate) {
+    private loadCompletedDailyHabits(selectedDate):void {
+        let dailyHabits = this.dataStore.loadData(this.getDailyHabitString(selectedDate));
+        const selectedDateDay = selectedDate.getDate();
+        if (!dailyHabits || dailyHabits.date != selectedDateDay) {
             dailyHabits = {
                 habits: [],
-                date:   selectedDate
+                date:   selectedDateDay
             }
         }
 
         this.completedDailyHabits = dailyHabits;
-        this.dataStore.saveData(this.getDailyHabitString(), this.completedDailyHabits);
+        this.dataStore.saveData(this.getDailyHabitString(selectedDate), this.completedDailyHabits);
     }
 
-    private loadCompletedWeeklyHabits():void {
-        let weeklyHabits = this.dataStore.loadData(this.getWeeklyHabitString());
+    private loadCompletedWeeklyHabits(selectedDate):void {
+        let weeklyHabits = this.dataStore.loadData(this.getWeeklyHabitString(selectedDate));
         const currentWeek = this.dateService.getWeekNumber();
         if (!weeklyHabits || weeklyHabits.date != currentWeek) {
             weeklyHabits = {
@@ -204,11 +205,12 @@ export class UserDataService {
         }
 
         this.completedWeeklyHabits = weeklyHabits;
-        this.dataStore.saveData(this.getWeeklyHabitString(), this.completedWeeklyHabits);
+        this.dataStore.saveData(this.getWeeklyHabitString(selectedDate), this.completedWeeklyHabits);
     }
 
-    private loadCompletedMonthlyHabits():void {
-        let monthlyHabits = this.dataStore.loadData(this.getMonthlyHabitString());
+    private loadCompletedMonthlyHabits(selectedDate):void {
+        const monthlyHabitString = this.getMonthlyHabitString(selectedDate);
+        let monthlyHabits = this.dataStore.loadData(monthlyHabitString);
         const currentMonth = this.dateService.selectedDate.getMonth() + 1;
         if (!monthlyHabits || monthlyHabits.date != currentMonth) {
             monthlyHabits = {
@@ -218,12 +220,12 @@ export class UserDataService {
         }
 
         this.completedMonthlyHabits = monthlyHabits;
-        this.dataStore.saveData(this.getMonthlyHabitString(), this.completedMonthlyHabits);
+        this.dataStore.saveData(monthlyHabitString, this.completedMonthlyHabits);
     }
 
-    private handleSelectedDateChange() {
-        this.loadCompletedDailyHabits();
-        this.loadCompletedWeeklyHabits();
-        this.loadCompletedMonthlyHabits();
+    public handleSelectedDateChange(selectedDate) {
+        this.loadCompletedDailyHabits(selectedDate);
+        this.loadCompletedWeeklyHabits(selectedDate);
+        this.loadCompletedMonthlyHabits(selectedDate);
     }
 }
