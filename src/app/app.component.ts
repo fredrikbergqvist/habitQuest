@@ -14,12 +14,12 @@ import {ServiceWorkerService} from './service/service-worker.service';
 export class AppComponent implements OnInit {
     habitGroups: Array<HabitGroup> = [];
     userData: User;
-    selectedDate:any;
+    selectedDate:any = new Date();
 
     constructor(private habitDataService: HabitDataService,
                 private userDataService: UserDataService,
                 private visibilityService: WindowVisibilityService,
-    private serviceWorkerService:ServiceWorkerService) {
+                private serviceWorkerService:ServiceWorkerService) {
     }
 
     public ngOnInit(): void {
@@ -41,9 +41,7 @@ export class AppComponent implements OnInit {
     }
 
     dateChanged(newDate){
-        this.selectedDate = null;
-        this.selectedDate = new Date(newDate);
-        this.userDataService.handleSelectedDateChange(this.selectedDate);
-        console.log('this.selectedDate = newDate', this.selectedDate, newDate)
+        this.userDataService.handleSelectedDateChange(newDate);
+        this.selectedDate = new Date(newDate); // Create a new object to trigger update
     }
 }

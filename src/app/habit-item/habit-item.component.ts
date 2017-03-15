@@ -41,6 +41,10 @@ export class HabitItemComponent implements OnInit, OnChanges {
     }
 
     hasCompleted():boolean {
-        return this.userDataService.hasCompletedMaxTimes(this.habit);
+        return this.userDataService.hasCompletedMaxTimes(this.habit, this.selectedDate);
+    }
+
+    maxedForToday():boolean{
+        return this.completedDailyCount < this.habit.maxDay
     }
 }

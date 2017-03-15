@@ -1,0 +1,16 @@
+
+<p class="progress__intro-text">
+    Du har sparat ihop <span class="current-total">{{percentToGo()}} %</span> av
+    totalsumman, bara {{userData?.goal.amount - userData?.reward}} :- kvar till {{userData?.goal.title}}!
+</p>
+
+<div class="progress__container">
+    <div class="progress__bar"
+         [ngClass]="{'completed': userData?.reward >= userData?.goal.amount}"
+         [ngStyle]="{'width.%': percentToGo()}"
+    >
+    </div>
+    <div class="progress__progress">
+        <span class="current-total">{{userData?.reward}}</span> / <span>{{userData?.goal.amount}}</span>
+    </div>
+</div>

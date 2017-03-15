@@ -16,7 +16,7 @@
         type="button"
         (click)="addHabit()"
         [disabled]="hasCompleted()"
-        *ngIf="completedDailyCount < habit.maxDay"><span class="icon-plus"></span><span class="visuallyhidden">Lägg till</span></button>
+        *ngIf="maxedForToday()"><span class="icon-plus"></span><span class="visuallyhidden">Lägg till</span></button>
 
     <ul class="habit-quests">
         <li *ngIf="habit.maxDay > 0" class="daily-quest">

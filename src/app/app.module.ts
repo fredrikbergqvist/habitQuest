@@ -16,6 +16,9 @@ import {WindowService} from './service/window.service';
 import {ServiceWorkerService} from './service/service-worker.service';
 import { SelectDateComponent } from './select-date/select-date.component';
 import { NavigationComponent } from './navigation/navigation.component';
+import { ProgressComponent } from './progress/progress.component';
+import {HabitDataStoreService} from './service/habit-data-store.service';
+import {UserDataStoreService} from './service/user-data-store.service';
 
 @NgModule({
     declarations: [
@@ -24,7 +27,8 @@ import { NavigationComponent } from './navigation/navigation.component';
         HabitGroupComponent,
         RegisterUserComponent,
         SelectDateComponent,
-        NavigationComponent
+        NavigationComponent,
+        ProgressComponent
     ],
     imports:      [
         BrowserModule,
@@ -39,7 +43,9 @@ import { NavigationComponent } from './navigation/navigation.component';
         DataStoreService,
         WindowVisibilityService,
         WindowService,
-        ServiceWorkerService
+        ServiceWorkerService,
+        HabitDataStoreService,
+        UserDataStoreService
     ],
     bootstrap:    [AppComponent]
 })

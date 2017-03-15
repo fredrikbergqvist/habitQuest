@@ -1,0 +1,25 @@
+.progress__intro-text{
+    text-align: center;
+}
+
+.progress__container {
+    background: #f2f2f2;
+    width: 100%;
+    position: relative;
+}
+
+.progress__bar {
+    background-color: lightcoral;
+    height: 30px;
+}
+
+.progress__bar.funded {
+    background-color: green;
+}
+
+.progress__progress{
+    position: absolute;
+    top: 5px;
+    width: 100%;
+    text-align: center;
+}
