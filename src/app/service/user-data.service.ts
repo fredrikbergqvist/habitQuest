@@ -5,6 +5,7 @@ import {DateService} from './date.service';
 import {UserDataStoreService} from './user-data-store.service';
 import {HabitDataStoreService} from './habit-data-store.service';
 import {IHabitData} from '../interface/i-habit-data';
+import {HabitUtilService} from './habit-util.service';
 
 @Injectable()
 export class UserDataService {
@@ -13,10 +14,12 @@ export class UserDataService {
     completedMonthlyHabits:IHabitData;
     userProfile:User;
 
-    constructor(private userDataStoreService:UserDataStoreService, private habitDataStoreService:HabitDataStoreService, private dateService:DateService) {
+    constructor(private userDataStoreService:UserDataStoreService,
+                private habitDataStoreService:HabitDataStoreService,
+                private dateService:DateService,
+                private habitUtilService:HabitUtilService) {
         this.handleSelectedDateChange(new Date());
     }
-
 
     loadUser() {
         if (!this.userProfile) {
@@ -84,42 +87,37 @@ export class UserDataService {
         return habitAdded;
     }
 
-    removeHabit(habit:Habit, selectedDate) {
-        let firstIndexOf = -1;
-        let habitRemoved = false;
-        if (habit.maxDay) {
-            firstIndexOf = this.completedDailyHabits.habits.indexOf(habit.id);
-            if (firstIndexOf > -1) {
-                this.completedDailyHabits.habits.splice(firstIndexOf, 1);
 
-                this.habitDataStoreService.saveCompletedDailyHabits(this.completedDailyHabits, selectedDate);
-                habitRemoved = true;
-                firstIndexOf = -1;
-            }
+    removeHabit(habit:Habit, selectedDate:Date) {
+        let dailyHabitRemoved = false;
+        let weeklyHabitRemoved = false;
+        let monthlyHabitRemoved = false;
+
+        if (habit.maxDay) {
+            dailyHabitRemoved = this.removeHabitFromCompleted(this.completedDailyHabits, habit, selectedDate);
         }
 
         if (habit.maxWeek) {
-            firstIndexOf = this.completedWeeklyHabits.habits.indexOf(habit.id);
-            if (firstIndexOf > -1) {
-                this.completedWeeklyHabits.habits.splice(firstIndexOf, 1);
-                this.habitDataStoreService.saveCompletedWeeklyHabits(this.completedWeeklyHabits, selectedDate);
-                habitRemoved = true;
-                firstIndexOf = -1;
-            }
+            weeklyHabitRemoved = this.removeHabitFromCompleted(this.completedWeeklyHabits, habit, selectedDate);
         }
 
         if (habit.maxMonth) {
-            firstIndexOf = this.completedMonthlyHabits.habits.indexOf(habit.id);
-            if (firstIndexOf > -1) {
-                this.completedMonthlyHabits.habits.splice(firstIndexOf, 1);
-                this.habitDataStoreService.saveCompletedMonthlyHabits(this.completedMonthlyHabits, selectedDate);
-                habitRemoved = true;
-            }
+            monthlyHabitRemoved = this.removeHabitFromCompleted(this.completedMonthlyHabits, habit, selectedDate);
         }
 
-        if (habitRemoved) {
+        if (dailyHabitRemoved || weeklyHabitRemoved || monthlyHabitRemoved) {
             this.removeFromCurrentTotal(habit);
         }
+    }
+
+    private removeHabitFromCompleted(completedHabits:IHabitData, habit:Habit, selectedDate:Date):boolean{
+        const firstIndexOf = completedHabits.habits.indexOf(habit.id);
+        if (firstIndexOf > -1) {
+            completedHabits.habits.splice(firstIndexOf, 1);
+            this.habitDataStoreService.saveCompletedMonthlyHabits(completedHabits, selectedDate);
+            return true;
+        }
+        return false;
     }
 
     hasCompletedMaxTimes(habit:Habit, selectedDate):boolean {
@@ -129,7 +127,7 @@ export class UserDataService {
     }
 
     timesCompletedToday(habit:Habit):number {
-        return this.completedDailyHabits.habits.filter(h => h === habit.id).length;
+        return this.habitUtilService.timesCompleted(habit, this.completedDailyHabits);
     }
 
     hasCompletedDailyMaxTimes(habit:Habit, selectedDate):boolean {
@@ -139,7 +137,7 @@ export class UserDataService {
     }
 
     timesCompletedThisWeek(habit:Habit):number {
-        return this.completedWeeklyHabits.habits.filter(h => h === habit.id).length;
+        return this.habitUtilService.timesCompleted(habit, this.completedWeeklyHabits);
     }
 
     hasCompletedWeeklyMaxTimes(habit:Habit, selectedDate):boolean {
@@ -149,7 +147,7 @@ export class UserDataService {
     }
 
     timesCompletedThisMonth(habit:Habit):number {
-        return this.completedMonthlyHabits.habits.filter(h => h === habit.id).length;
+        return this.habitUtilService.timesCompleted(habit, this.completedMonthlyHabits);
     }
 
     hasCompletedMonthlyMaxTimes(habit:Habit, selectedDate):boolean {
@@ -158,7 +156,7 @@ export class UserDataService {
             this.completedMonthlyHabits.habits.filter((h) => h == habit.id).length >= habit.maxMonth;
     }
 
-    public handleSelectedDateChange(selectedDate) {
+    handleSelectedDateChange(selectedDate) {
         this.completedDailyHabits = this.habitDataStoreService.loadCompletedDailyHabits(selectedDate);
         this.completedWeeklyHabits = this.habitDataStoreService.loadCompletedWeeklyHabits(selectedDate);
         this.completedMonthlyHabits = this.habitDataStoreService.loadCompletedMonthlyHabits(selectedDate);

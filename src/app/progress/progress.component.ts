@@ -11,6 +11,9 @@ export class ProgressComponent {
   constructor() { }
 
   percentToGo(){
+      if(!this.userData){
+          return 0;
+      }
       return Math.floor((this.userData.reward / this.userData.goal.amount) * 100);
   }
 

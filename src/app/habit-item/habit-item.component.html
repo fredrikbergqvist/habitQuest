@@ -1,8 +1,8 @@
 <section
-    [ngClass]="{'bad-habit': !habit.goodHabit, 'good-habit': habit.goodHabit, 'habit-item': true, 'completed': hasCompleted()}">
+    [ngClass]="{'bad-habit': !habit?.goodHabit, 'good-habit': habit?.goodHabit, 'habit-item': true, 'completed': hasCompleted()}">
     <header>
-        <h3>{{habit.name}}</h3>
-        <p *ngIf="habit.note">{{habit.note}}</p>
+        <h3>{{habit?.name}}</h3>
+        <p *ngIf="habit?.note">{{habit?.note}}</p>
     </header>
 
     <button
@@ -19,14 +19,14 @@
         *ngIf="maxedForToday()"><span class="icon-plus"></span><span class="visuallyhidden">Lägg till</span></button>
 
     <ul class="habit-quests">
-        <li *ngIf="habit.maxDay > 0" class="daily-quest">
-            I dag: {{completedDailyCount}}/{{habit.maxDay}}
+        <li *ngIf="habit?.maxDay > 0" class="daily-quest">
+            I dag: {{completedDailyCount}}/{{habit?.maxDay}}
         </li>
-        <li *ngIf="habit.maxWeek > 0" class="weekly-quest">
-            Denna vecka: {{completedWeeklyCount}}/{{habit.maxWeek}}
+        <li *ngIf="habit?.maxWeek > 0" class="weekly-quest">
+            Denna vecka: {{completedWeeklyCount}}/{{habit?.maxWeek}}
         </li>
-        <li *ngIf="habit.maxMonth > 0" class="monthly-quest">
-            Denna månad: {{completedMonthlyCount}}/{{habit.maxMonth}}
+        <li *ngIf="habit?.maxMonth > 0" class="monthly-quest">
+            Denna månad: {{completedMonthlyCount}}/{{habit?.maxMonth}}
         </li>
     </ul>
 

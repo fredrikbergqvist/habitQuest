@@ -19,6 +19,7 @@ import { NavigationComponent } from './navigation/navigation.component';
 import { ProgressComponent } from './progress/progress.component';
 import {HabitDataStoreService} from './service/habit-data-store.service';
 import {UserDataStoreService} from './service/user-data-store.service';
+import {HabitUtilService} from './service/habit-util.service';
 
 @NgModule({
     declarations: [
@@ -45,7 +46,8 @@ import {UserDataStoreService} from './service/user-data-store.service';
         WindowService,
         ServiceWorkerService,
         HabitDataStoreService,
-        UserDataStoreService
+        UserDataStoreService,
+        HabitUtilService
     ],
     bootstrap:    [AppComponent]
 })

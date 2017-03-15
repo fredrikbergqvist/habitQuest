@@ -2,11 +2,12 @@
 
 import { TestBed, async, inject } from '@angular/core/testing';
 import { WindowVisibilityService } from './window-visibility.service';
+import {WindowService} from './window.service';
 
 describe('WindowVisibilityService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [WindowVisibilityService]
+      providers: [WindowService, WindowVisibilityService]
     });
   });
 

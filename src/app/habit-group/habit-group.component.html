@@ -1,10 +1,10 @@
 <section class="habit-group">
     <header>
-        <h2 class="section-heading"><span>{{habitGroup.name}}</span></h2>
-        <p>{{habitGroup.description}}</p>
+        <h2 class="section-heading"><span>{{habitGroup?.name}}</span></h2>
+        <p>{{habitGroup?.description}}</p>
     </header>
     <ul>
-        <li *ngFor="let habit of habitGroup.habits">
+        <li *ngFor="let habit of habitGroup?.habits">
             <app-habit-item [habit]="habit" [selectedDate]="selectedDate"></app-habit-item>
         </li>
     </ul>

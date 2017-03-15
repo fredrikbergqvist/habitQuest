@@ -5,17 +5,9 @@ import {HabitGroup} from '../models/habit-group';
     selector:    'app-habit-group',
     templateUrl: './habit-group.component.html'
 })
-export class HabitGroupComponent implements OnInit, OnChanges {
+export class HabitGroupComponent {
     @Input() habitGroup:HabitGroup;
     @Input() selectedDate:any;
-
-    constructor() {}
-
-    public ngOnInit() {}
-
-    public ngOnChanges(changes: SimpleChanges): void {
-
-    }
 
 
 }

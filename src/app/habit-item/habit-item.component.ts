@@ -10,9 +10,9 @@ export class HabitItemComponent implements OnInit, OnChanges {
     @Input() habit:Habit;
     @Input() selectedDate:any;
 
-    private completedDailyCount:number;
-    private completedWeeklyCount:number;
-    private completedMonthlyCount:number;
+    private completedDailyCount:number = 0;
+    private completedWeeklyCount:number = 0;
+    private completedMonthlyCount:number = 0;
 
     constructor(private userDataService:UserDataService) {}
 
@@ -45,6 +45,9 @@ export class HabitItemComponent implements OnInit, OnChanges {
     }
 
     maxedForToday():boolean{
+        if(!this.habit){
+            return;
+        }
         return this.completedDailyCount < this.habit.maxDay
     }
 }
