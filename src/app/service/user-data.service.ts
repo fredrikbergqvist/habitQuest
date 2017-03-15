@@ -93,16 +93,27 @@ export class UserDataService {
         let weeklyHabitRemoved = false;
         let monthlyHabitRemoved = false;
 
+
         if (habit.maxDay) {
-            dailyHabitRemoved = this.removeHabitFromCompleted(this.completedDailyHabits, habit, selectedDate);
+            dailyHabitRemoved = this.removeHabitFromCompleted(this.completedDailyHabits, habit);
+            if(dailyHabitRemoved) {
+                this.habitDataStoreService.saveCompletedDailyHabits(this.completedDailyHabits, selectedDate);
+            }
         }
 
         if (habit.maxWeek) {
-            weeklyHabitRemoved = this.removeHabitFromCompleted(this.completedWeeklyHabits, habit, selectedDate);
+            weeklyHabitRemoved = this.removeHabitFromCompleted(this.completedWeeklyHabits, habit);
+            if(weeklyHabitRemoved){
+                this.habitDataStoreService.saveCompletedWeeklyHabits(this.completedWeeklyHabits, selectedDate);
+            }
         }
 
         if (habit.maxMonth) {
-            monthlyHabitRemoved = this.removeHabitFromCompleted(this.completedMonthlyHabits, habit, selectedDate);
+            monthlyHabitRemoved = this.removeHabitFromCompleted(this.completedMonthlyHabits, habit);
+            if(monthlyHabitRemoved) {
+                this.habitDataStoreService.saveCompletedMonthlyHabits(this.completedMonthlyHabits, selectedDate);
+            }
+
         }
 
         if (dailyHabitRemoved || weeklyHabitRemoved || monthlyHabitRemoved) {
@@ -110,11 +121,10 @@ export class UserDataService {
         }
     }
 
-    private removeHabitFromCompleted(completedHabits:IHabitData, habit:Habit, selectedDate:Date):boolean{
+    private removeHabitFromCompleted(completedHabits:IHabitData, habit:Habit):boolean{
         const firstIndexOf = completedHabits.habits.indexOf(habit.id);
         if (firstIndexOf > -1) {
             completedHabits.habits.splice(firstIndexOf, 1);
-            this.habitDataStoreService.saveCompletedMonthlyHabits(completedHabits, selectedDate);
             return true;
         }
         return false;
