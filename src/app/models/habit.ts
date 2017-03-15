@@ -7,4 +7,5 @@ export class Habit {
     maxWeek:number;
     maxMonth:number;
     goodHabit:boolean;
+    active:boolean;
 }
