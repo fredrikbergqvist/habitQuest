@@ -1,10 +1,15 @@
 /* You can add global styles to this file, and also import other style files */
+@import "assets/styles/normalize";
 @import "assets/styles/variables";
 @import "assets/styles/fonts";
 @import "assets/styles/base";
 @import "assets/styles/loader";
 @import "assets/styles/heading";
-@import "app/navigation/navigation.component.scss";
+@import "assets/styles/float-label";
+@import "assets/styles/forms";
+
+@import "app/navigation/navigation.component";
 @import "app/habit-item/habit-item.component";
 @import "app/habit-group/habit-group.component";
 @import "app/select-date/select-date.component";
+@import "app/register-user/register-user.component";

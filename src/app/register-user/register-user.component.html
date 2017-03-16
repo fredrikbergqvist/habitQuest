@@ -1,33 +1,47 @@
 
-<h2>Registrera</h2>
+<article class="main-article">
+    <header class="main-article__header">
+        <h2>Registrera konto</h2>
+    </header>
 
-<fieldset>
-    <form (ngSubmit)="onSubmit()" #registerForm="ngForm">
-        <div class="input-item">
-            <label for="name">Ditt namn</label>
-            <input type="text"
-                   placeholder="Namn"
-                   id="name"
-                   required
-                   [(ngModel)]="model.name"
-                   name="name"
-                   #name="ngModel"
-            />
-        </div>
-        <div class="input-item">
-            <label for="goal">Mål</label>
-            <input type="text" placeholder="Mål" id="goal"
-                   [(ngModel)]="model.goal.title" name="goal" />
-        </div>
-        <div class="input-item">
-            <label for="amount"></label>
-            <input type="text" placeholder="Målsumma"
+    <fieldset class="register-user">
+        <form (ngSubmit)="onSubmit()" #registerForm="ngForm">
+            <div class="register-user__input-item">
+                <label for="name" class="has-float-label">
+                    <input type="text"
+                       id="name"
+                       required
+                       [(ngModel)]="model.name"
+                       name="name"
+                       placeholder="Förnamn och efternamn"
+                       class="register-user__text-input form-input"
+                       #name="ngModel"
+                />
+                    <span>Ditt namn</span>
+                </label>
+            </div>
+
+            <div class="register-user__input-item">
+                <label for="goal" class="has-float-label">
+                    <input type="text" id="goal" class="register-user__text-input form-input"
+                           placeholder="Vad vill du spara till?"
+                       [(ngModel)]="model.goal.title" name="goal" />
+                    <span>Mål</span>
+                </label>
+            </div>
+
+            <div class="register-user__input-item">
+                <label for="amount" class="register-user__number-legend"><span>Målsumma:</span></label>
+                <input type="number"
                    [(ngModel)]="model.goal.amount"
                    name="amount"
+                   class="register-user__number-input form-input"
                    id="amount" />
-        </div>
+            </div>
 
 
-        <button type="submit">Spara</button>
-    </form>
-</fieldset>
+            <button type="submit"
+                    class="register-user__submit-button"><span>Spara</span></button>
+        </form>
+    </fieldset>
+</article>

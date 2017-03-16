@@ -7,10 +7,9 @@
             <app-navigation></app-navigation>
     </header>
 
-    <app-register-user *ngIf="!userData" (onChange)="onRegister($event)"></app-register-user>
 
     <article class="main-article" *ngIf="userData">
-        <header>
+        <header class="main-article__header">
             <h2><span>Hej {{userData?.name}}!</span></h2>
             <app-progress [userData]="userData"></app-progress>
         </header>
@@ -19,5 +18,6 @@
     </article>
 
 
+    <app-register-user *ngIf="!userData" (onChange)="onRegister($event)"></app-register-user>
 
 </main>

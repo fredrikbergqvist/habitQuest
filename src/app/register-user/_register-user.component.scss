@@ -1,0 +1,29 @@
+.register-user{
+    padding: $padding-medium;
+    margin: 0;
+    border: none;
+}
+
+.register-user__input-item{
+    margin: $padding-large 0;
+}
+
+.register-user__text-input{
+    display: block;
+    width: 100%;
+}
+
+.register-user__submit-button{
+    padding: $padding-medium $padding-large;
+    border: 1px solid $text-color;
+    background-color: $accent-color;
+    border-radius: $padding-small;
+}
+
+.register-user__number-input{
+
+}
+.register-user__number-legend{
+    font-size: 150%;
+    opacity: .5;
+}
