@@ -1,26 +1,90 @@
-.main-navigation{
-    .open-menu{
-        font-size: 28px;
-        color: $primary-color;
-        position: absolute;
-        top: 10px;
-        right: 10px;
-    }
 
-    .navigation-list{
-        position: absolute;
-        width: 300px;
-        transition: 300ms all ease-out;
-        height: 100vh;
-        background: #fff;
-        right:0;
-        transform: translate(100%);
-    }
+.main-navigation__open-button {
+    font-size: 28px;
+    color: $primary-color;
+    top: 10px;
+    right: 10px;
+    position: static;
 
-    &.show{
-        .navigation-list{
-            transition: 300ms all ease-in;
-            transform: translate(0);
-        }
+    @include hide;
+
+    @include breakpoint($mq-medium) {
+        position: absolute;
+        @include show;
     }
 }
+
+.main-navigation {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    background: #333;
+    width: 100%;
+    padding: $padding-medium 0;
+    z-index: 2;
+
+    @include breakpoint($mq-medium) {
+        position: static;
+    }
+}
+
+.main-navigation__list {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+
+    @include breakpoint($mq-medium) {
+        flex-flow: row wrap;
+        justify-content: space-around;
+        display: block;
+        position: absolute;
+        width: 300px;
+        transition: 300ms all ease-in;
+        height: 100vh;
+        background: #fff;
+        right: 0;
+        transform: translateX(100%);
+        visibility: hidden;
+        overflow-y: auto;
+        z-index: 2;
+    }
+}
+
+.main-navigation--open {
+    .main-navigation__list {
+        transition: 300ms all ease-out;
+        transform: translateX(0);
+        visibility: visible;
+    }
+}
+
+.main-navigation__list-item {
+    margin: 0 $padding-small;
+
+    @include breakpoint($mq-mini) {
+        margin: 0 $padding-medium;
+    }
+
+    .button {
+        font-size: $font-size-xlarge;
+        color: $accent-color-dark;
+        cursor: pointer;
+        padding: $padding-small $padding-medium;
+
+        @include breakpoint($mq-small) {
+            padding: $padding-medium $padding-large;
+        }
+
+        span{
+            @include breakpoint($mq-medium) {
+                @include show-visuallyhidden;
+                color: $text-color;
+                font-size: $font-size-large;
+            }
+        }
+
+    }
+}
+
+
+

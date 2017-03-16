@@ -31,17 +31,29 @@
             </div>
 
             <div class="register-user__input-item">
+                <label for="amount" class="has-float-label">
+                <textarea
+                       [(ngModel)]="model.goal.description"
+                       name="description"
+                       placeholder="Beskrivning"
+                       class="register-user__text-input form-textarea"
+                       id="description" ></textarea>
+                    <span>Beskrivning:</span></label>
+            </div>
+            <div class="register-user__input-item">
                 <label for="amount" class="register-user__number-legend"><span>Målsumma:</span></label>
                 <input type="number"
-                   [(ngModel)]="model.goal.amount"
-                   name="amount"
-                   class="register-user__number-input form-input"
-                   id="amount" />
+                       [(ngModel)]="model.goal.amount"
+                       name="amount"
+                       class="register-user__number-input form-input"
+                       id="amount" />
             </div>
 
 
             <button type="submit"
-                    class="register-user__submit-button"><span>Spara</span></button>
+                    class="register-user__submit-button">
+                <span class="icon-floppy-disk"></span>
+                <span>Spara</span></button>
         </form>
     </fieldset>
 </article>

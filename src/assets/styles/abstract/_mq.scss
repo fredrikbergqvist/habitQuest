@@ -1,0 +1,26 @@
+$old-ie: false !default;
+@mixin breakpoint($point) {
+    @if $old-ie==true {
+        @media screen { @content;}
+    } @else {
+        @media screen and (min-width: $point) { @content; }
+    }
+}
+
+// Example: @include breakpointMax($mq-960);
+@mixin breakpointMax($point) {
+    @if $old-ie==true {
+        @media screen { @content;}
+    } @else {
+        @media screen and (max-width: $point) { @content; }
+    }
+}
+
+// Example: @include breakpointMinMax($mq-960, $mq-1200);
+@mixin breakpointMinMax($min, $max) {
+    @if $old-ie==true {
+        @media screen { @content;}
+    } @else {
+        @media screen and (min-width: $min) and (max-width: $max) { @content; }
+    }
+}

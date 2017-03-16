@@ -1,14 +1,41 @@
-<nav class="main-navigation" [ngClass]="{'show': navigationOpen}">
-    <button class="no-button open-menu" (click)="openNavigation()"><span class="icon-menu"></span> <span class="visuallyhidden">Öppna navigation</span></button>
+<nav class="main-navigation" [ngClass]="{'main-navigation--open': navigationOpen}">
 
-    <ul class="navigation-list">
-        <li>
-            <span class="icon-user"></span>
-            <button type="button">Din sida</button>
+    <button class="no-button main-navigation__open-button c-hamburger c-hamburger--htx"
+            (click)="openNavigation()"
+    >
+        <span class="">Öppna navigation</span>
+    </button>
+
+    <ul class="main-navigation__list">
+        <li class="main-navigation__list-item">
+            <button type="button" class="no-button button">
+                <span class="icon-home3"></span>
+                <span class="visuallyhidden">Home</span>
+            </button>
         </li>
-        <li>
-            <span class="icon-cogs"></span>
-            <button type="button">Inställningar</button>
+        <li class="main-navigation__list-item">
+            <button type="button" class="no-button button">
+                <span class="icon-spinner9"></span>
+                <span class="visuallyhidden">Habits</span>
+            </button>
+        </li>
+        <li class="main-navigation__list-item">
+            <button type="button" class="no-button button">
+                <span class="icon-trophy"></span>
+                <span class="visuallyhidden">Achivements</span>
+            </button>
+        </li>
+        <li class="main-navigation__list-item">
+            <button type="button" class="no-button button">
+                <span class="icon-user"></span>
+                <span class="visuallyhidden">Din sida</span>
+            </button>
+        </li>
+        <li class="main-navigation__list-item">
+            <button type="button" class="no-button button">
+                <span class="icon-cog"></span>
+                <span class="visuallyhidden">Inställningar</span>
+            </button>
         </li>
     </ul>
 </nav>

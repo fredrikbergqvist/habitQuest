@@ -4,6 +4,7 @@ body{
     margin:0;
     background-color: $primary-color;
     font-size: $base-font-size;
+    overflow-x: hidden;
 }
 
 /* Lists */
@@ -60,8 +61,7 @@ h1{
 }
 
 .visuallyhidden{
-    position: absolute;
-    left: -999em;
+    @include visuallyhidden;
 }
 
 .no-button{

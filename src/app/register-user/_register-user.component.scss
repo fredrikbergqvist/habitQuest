@@ -16,14 +16,16 @@
 .register-user__submit-button{
     padding: $padding-medium $padding-large;
     border: 1px solid $text-color;
+    color: $text-color;
     background-color: $accent-color;
     border-radius: $padding-small;
+    font-size: $font-size-large;
 }
 
 .register-user__number-input{
 
 }
 .register-user__number-legend{
-    font-size: 150%;
+    font-size: $font-size-large;
     opacity: .5;
 }

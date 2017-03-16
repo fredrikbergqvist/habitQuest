@@ -22,72 +22,71 @@
     -moz-osx-font-smoothing: grayscale;
 }
 
+.icon-home3 {
+    &:before {
+        content: $icon-home3;
+    }
+}
+.icon-pencil {
+    &:before {
+        content: $icon-pencil;
+    }
+}
+.icon-spinner9 {
+    &:before {
+        content: $icon-spinner9;
+    }
+}
+.icon-cog {
+    &:before {
+        content: $icon-cog;
+    }
+}
+.icon-trophy {
+    &:before {
+        content: $icon-trophy;
+    }
+}
 .icon-floppy-disk {
     &:before {
         content: $icon-floppy-disk;
     }
 }
-
 .icon-user {
     &:before {
         content: $icon-user;
     }
 }
-
-.icon-cogs {
-    &:before {
-        content: $icon-cogs;
-    }
-}
-
-.icon-fire {
-    &:before {
-        content: $icon-fire;
-    }
-}
-
 .icon-star-empty {
     &:before {
         content: $icon-star-empty;
     }
 }
-
 .icon-star-full {
     &:before {
         content: $icon-star-full;
     }
 }
-
 .icon-circle-right {
     &:before {
         content: $icon-circle-right;
     }
 }
-
 .icon-circle-left {
     &:before {
         content: $icon-circle-left;
     }
 }
-
-.icon-menu {
-    &:before {
-        content: $icon-menu;
-    }
-}
-
 .icon-plus {
     &:before {
         content: $icon-plus;
     }
 }
-
 .icon-minus {
     &:before {
         content: $icon-minus;
     }
 }
-
 .icon-cross {
     &:before {
         content: $icon-cross;
