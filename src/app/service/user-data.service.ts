@@ -87,36 +87,32 @@ export class UserDataService {
         return habitAdded;
     }
 
-
+    //TODO: Not happy with this
     removeHabit(habit:Habit, selectedDate:Date) {
-        let dailyHabitRemoved = false;
-        let weeklyHabitRemoved = false;
-        let monthlyHabitRemoved = false;
-
+        let habitRemoved = false;
 
         if (habit.maxDay) {
-            dailyHabitRemoved = this.removeHabitFromCompleted(this.completedDailyHabits, habit);
-            if(dailyHabitRemoved) {
+            if(this.removeHabitFromCompleted(this.completedDailyHabits, habit)) {
                 this.habitDataStoreService.saveCompletedDailyHabits(this.completedDailyHabits, selectedDate);
+                habitRemoved = true;
             }
         }
 
         if (habit.maxWeek) {
-            weeklyHabitRemoved = this.removeHabitFromCompleted(this.completedWeeklyHabits, habit);
-            if(weeklyHabitRemoved){
+            if(this.removeHabitFromCompleted(this.completedWeeklyHabits, habit)){
                 this.habitDataStoreService.saveCompletedWeeklyHabits(this.completedWeeklyHabits, selectedDate);
+                habitRemoved = true;
             }
         }
 
         if (habit.maxMonth) {
-            monthlyHabitRemoved = this.removeHabitFromCompleted(this.completedMonthlyHabits, habit);
-            if(monthlyHabitRemoved) {
+            if(this.removeHabitFromCompleted(this.completedMonthlyHabits, habit)) {
                 this.habitDataStoreService.saveCompletedMonthlyHabits(this.completedMonthlyHabits, selectedDate);
+                habitRemoved = true;
             }
-
         }
 
-        if (dailyHabitRemoved || weeklyHabitRemoved || monthlyHabitRemoved) {
+        if (habitRemoved) {
             this.removeFromCurrentTotal(habit);
         }
     }
@@ -137,7 +133,7 @@ export class UserDataService {
     }
 
     timesCompletedToday(habit:Habit):number {
-        return this.habitUtilService.timesCompleted(habit, this.completedDailyHabits);
+        return this.habitUtilService.timesCompleted(habit.id, this.completedDailyHabits.habits);
     }
 
     hasCompletedDailyMaxTimes(habit:Habit, selectedDate):boolean {
@@ -147,7 +143,7 @@ export class UserDataService {
     }
 
     timesCompletedThisWeek(habit:Habit):number {
-        return this.habitUtilService.timesCompleted(habit, this.completedWeeklyHabits);
+        return this.habitUtilService.timesCompleted(habit.id, this.completedWeeklyHabits.habits);
     }
 
     hasCompletedWeeklyMaxTimes(habit:Habit, selectedDate):boolean {
@@ -157,7 +153,7 @@ export class UserDataService {
     }
 
     timesCompletedThisMonth(habit:Habit):number {
-        return this.habitUtilService.timesCompleted(habit, this.completedMonthlyHabits);
+        return this.habitUtilService.timesCompleted(habit.id, this.completedMonthlyHabits.habits);
     }
 
     hasCompletedMonthlyMaxTimes(habit:Habit, selectedDate):boolean {
