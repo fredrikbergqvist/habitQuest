@@ -4,6 +4,11 @@
     padding-top: $padding-medium;
     border-top: 1px solid $tertiary-color;
 
+    li:first-child &{
+        border-top: none;
+        padding-top: 0;
+    }
+
     header{
         float: left;
 

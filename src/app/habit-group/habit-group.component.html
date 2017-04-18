@@ -5,7 +5,7 @@
     </header>
     <ul>
         <li *ngFor="let habit of habitGroup?.habits">
-            <app-habit-item [habit]="habit" [selectedDate]="selectedDate"></app-habit-item>
+            <app-habit-item [habit]="habit" [selectedDate]="selectedDate" *ngIf="habit.active"></app-habit-item>
         </li>
     </ul>
 </section>

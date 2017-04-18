@@ -41,12 +41,12 @@
         width: 300px;
         transition: 300ms all ease-in;
         height: 100vh;
-        background: #fff;
         right: 0;
         transform: translateX(100%);
         visibility: hidden;
         overflow-y: auto;
         z-index: 2;
+        background-color: $secondary-color;
     }
 }
 
@@ -60,6 +60,14 @@
 
 .main-navigation__list-item {
     margin: 0 $padding-small;
+
+    &:hover{
+        background-color: $secondary-color-dark;
+
+        .button{
+            color: $accent-color;
+        }
+    }
 
     @include breakpoint($mq-mini) {
         margin: 0 $padding-medium;
@@ -75,14 +83,17 @@
             padding: $padding-medium $padding-large;
         }
 
-        span{
-            @include breakpoint($mq-medium) {
-                @include show-visuallyhidden;
-                color: $text-color;
-                font-size: $font-size-large;
-            }
+        @include breakpoint($mq-medium) {
+            color: $primary-color;
+            font-size: $font-size-large;
         }
 
+        .visuallyhidden{
+            @include breakpoint($mq-medium) {
+                @include show-visuallyhidden;
+                position: static;
+            }
+        }
     }
 }
 
